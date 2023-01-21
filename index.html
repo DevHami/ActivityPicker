@@ -1,58 +1,1251 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Home - Brand</title>
-
-
+    <title>مقترح النشاطات</title>
 </head>
 
 <body>
-    <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-dark navbar-custom">
-        <div class="container"><a class="navbar-brand" href='#' onclick="window.location.reload();">Activity Picker</a>
-        </div>
-    </nav>
-    <header class="text-center text-white masthead">
-        <div id="chosenone" class="container">
-            <h1 class="display-2 masthead-heading mb-2">تشعر بالملل؟</h1>
-            <h2 class="display-4 masthead-subheading mb-2">سنختار نشاطا لك</h2>
-            <form>
-                <h3>:عدد الأشخاص</h3>
-                <select class="custom-select" id="participants">
-                    <option value="لا يهم">لا يهم</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                </select><br><br>
+    <h1>موقع يساعدك لاختيار نشاط تملأ به وقت فراغك</h1>
+    <form>
+        عدد الأشخاص:
+        <select id="participants">
+            <option value="لا يهم">لا يهم</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+        </select><br><br>
 
-                <h3>:نوع النشاط</h3>
-                <select class="" id="type">
-                    <option value="لا يهم">لا يهم</option>
-                    <option value="اجتماعي">اجتماعي</option>
-                    <option value="ترفيه">ترفيه</option>
-                    <option value="عمل خيري">عمل خيري</option>
-                    <option value="تعلم">تعلم</option>
-                    <option value="عمل مفيد">عمل مفيد</option>
-                </select><br><br>
-            </form>
+        نوع النشاط:
+        <select id="type">
+            <option value="لا يهم">لا يهم</option>
+            <option value="اجتماعي">اجتماعي</option>
+            <option value="ترفيه">ترفيه</option>
+            <option value="عمل خيري">عمل خيري</option>
+            <option value="تعلم">تعلم</option>
+            <option value="عمل مفيد">عمل مفيد</option>
+        </select><br><br>
 
-            <a class="btn btn-primary btn-xl rounded-pill mt-5" role="button" onclick="suggestActivity()"
-                style="font-size: 30.4px;">اضغط
-                هنا</a>
+        <input type="button" value="أقترح نشاط" onclick="suggestActivity()">
+    </form>
+    <p id="suggestion"></p>
 
-        </div>
+    <script>
+        // JSON object containing multiple activities
+        var activities = [
+            {
+                "id": 1,
+                "activity": "اذهب للمشي",
+                "type": "استرخاء",
+                "participants": 1
+            },
+            {
+                "id": 2,
+                "activity": "تعلم كيفية طي رافعة ورقية",
+                "type": "تعلم",
+                "participants": 1
+            },
+            {
+                "id": 3,
+                "activity": "إنشاء موقع شخصي",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 4,
+                "activity": "اخبز فطيرة مع بعض الأصدقاء",
+                "type": "طبخ",
+                "participants": 3
+            },
+            {
+                "id": 5,
+                "activity": "تعلم لغة Kotlin",
+                "type": "تعلم",
+                "participants": 1
+            },
+            {
+                "id": 6,
+                "activity": "اذهب إلى مهرجان موسيقي مع بعض الأصدقاء",
+                "type": "اجتماعي",
+                "participants": 4
+            },
+            {
+                "id": 7,
+                "activity": "شاهد غروب الشمس أو شروقها",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 8,
+                "activity": "عقد دورة ألعاب فيديو مع بعض الأصدقاء",
+                "type": "اجتماعي",
+                "participants": 4
+            },
+            {
+                "id": 9,
+                "activity": "قم بإعداد مجموعة 72 ساعة",
+                "type": "عمل مفيد",
+                "participants": 1
+            },
+            {
+                "id": 10,
+                "activity": "تنظيم درج غير منظم",
+                "type": "عمل مفيد",
+                "participants": 1
+            },
+            {
+                "id": 11,
+                "activity": "تلعب لعبة فيديو",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 12,
+                "activity": "قم برحلة برية عفوية مع بعض الأصدقاء",
+                "type": "اجتماعي",
+                "participants": 4
+            },
+            {
+                "id": 13,
+                "activity": "نظف المرآب الخاص بك",
+                "type": "عمل مفيد",
+                "participants": 1
+            },
+            {
+                "id": 14,
+                "activity": "تعلم اوريغامي",
+                "type": "تعلم",
+                "participants": 1
+            },
+            {
+                "id": 15,
+                "activity": "قم باستضافة فيلم ماراثون مع بعض الأصدقاء",
+                "type": "اجتماعي",
+                "participants": 3
+            },
+            {
+                "id": 16,
+                "activity": "تعرف على نظام التحكم في الإصدار الموزع مثل Git",
+                "type": "تعلم",
+                "participants": 1
+            },
+            {
+                "id": 17,
+                "activity": "اذهب إلى حفلة موسيقية مع بعض الأصدقاء",
+                "type": "اجتماعي",
+                "participants": 4
+            },
+            {
+                "id": 18,
+                "activity": "قم بدعوة بعض الأصدقاء لقضاء ليلة في اللعبة",
+                "type": "اجتماعي",
+                "participants": 4
+            },
+            {
+                "id": 19,
+                "activity": "قم بنزهة في حديقة محلية",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 20,
+                "activity": "ابدأ فرقة",
+                "type": "موسيقى",
+                "participants": 4
+            },
+            {
+                "id": 21,
+                "activity": "ابدأ بمجلة يومية",
+                "type": "استرخاء",
+                "participants": 1
+            },
+            {
+                "id": 22,
+                "activity": "ارسم أول شيء تراه",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 23,
+                "activity": "العب لعبة مونوبولي",
+                "type": "اجتماعي",
+                "participants": 4
+            },
+            {
+                "id": 24,
+                "activity": "تنظيم رف الكتب",
+                "type": "عمل مفيد",
+                "participants": 1
+            },
+            {
+                "id": 25,
+                "activity": "مشروع وصية معيشتك",
+                "type": "عمل مفيد",
+                "participants": 1
+            },
+            {
+                "id": 26,
+                "activity": "تعلم الخياطة على زر",
+                "type": "تعلم",
+                "participants": 1
+            },
+            {
+                "id": 27,
+                "activity": "جرب طعامًا لا تحبه",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 28,
+                "activity": "أعد طلاء غرفة في منزلك",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 29,
+                "activity": "املأ قوس كرة السلة",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 30,
+                "activity": "تعلم GraphQL",
+                "type": "تعلم",
+                "participants": 1
+            },
+            {
+                "id": 31,
+                "activity": "اصنع الخبز من الصفر",
+                "type": "طبخ",
+                "participants": 1
+            },
+            {
+                "id": 32,
+                "activity": "شاهد محاضرة أكاديمية خان حول موضوع من اختيارك",
+                "type": "تعلم",
+                "participants": 1
+            },
+            {
+                "id": 33,
+                "activity": "ضع بعض النباتات في وعاء وضعها حول منزلك",
+                "type": "استرخاء",
+                "participants": 1
+            },
+            {
+                "id": 34,
+                "activity": "انظر إلى الصور ومقاطع الفيديو لحيوانات لطيفة",
+                "type": "استرخاء",
+                "participants": 1
+            },
+            {
+                "id": 35,
+                "activity": "ابدأ شجرة عائلة",
+                "type": "اجتماعي",
+                "participants": 1
+            },
+            {
+                "id": 36,
+                "activity": "تعلم فن الخط",
+                "type": "تعلم",
+                "participants": 1
+            },
+            {
+                "id": 37,
+                "activity": "تطوع في بنك الطعام المحلي الخاص بك",
+                "type": "عمل خيري",
+                "participants": 1
+            },
+            {
+                "id": 38,
+                "activity": "خذ فصلًا دراسيًا في مركز المجتمع المحلي الذي يثير اهتمامك",
+                "type": "تعلم",
+                "participants": 1
+            },
+            {
+                "id": 39,
+                "activity": "اذهب إلى حفلة موسيقية مع فنانين محليين مع بعض الأصدقاء",
+                "type": "اجتماعي",
+                "participants": 3
+            },
+            {
+                "id": 40,
+                "activity": "قم بعمل مزحة غير مؤذية على أحد أصدقائك",
+                "type": "اجتماعي",
+                "participants": 1
+            },
+            {
+                "id": 41,
+                "activity": "طابق حاويات التخزين الخاصة بك مع أغطيةها",
+                "type": "عمل مفيد",
+                "participants": 1
+            },
+            {
+                "id": 42,
+                "activity": "مزق المستندات القديمة التي لم تعد بحاجة إليها",
+                "type": "عمل مفيد",
+                "participants": 1
+            },
+            {
+                "id": 43,
+                "activity": "تعرف على النسبة الذهبية",
+                "type": "تعلم",
+                "participants": 1
+            },
+            {
+                "id": 44,
+                "activity": "اذهب لرؤية إنتاج برودواي",
+                "type": "ترفيه",
+                "participants": 4
+            },
+            {
+                "id": 45,
+                "activity": "اكتب رسالة شكر لشخص مؤثر في حياتك",
+                "type": "اجتماعي",
+                "participants": 1
+            },
+            {
+                "id": 46,
+                "activity": "قم بزيارة متحف قريب",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 47,
+                "activity": "تبرع بالدم في مركز دم محلي",
+                "type": "عمل خيري",
+                "participants": 1
+            },
+            {
+                "id": 48,
+                "activity": "اذهب إلى المكتبة وابحث عن كتاب ممتع",
+                "type": "استرخاء",
+                "participants": 1
+            },
+            {
+                "id": 49,
+                "activity": "تنظيم خزانة الملابس الخاصة بك",
+                "type": "عمل مفيد",
+                "participants": 1
+            },
+            {
+                "id": 50,
+                "activity": "اخبز المعجنات لك ولجارك",
+                "type": "طبخ",
+                "participants": 1
+            },
+            {
+                "id": 51,
+                "activity": "التقط القمامة حول حديقتك المفضلة",
+                "type": "عمل خيري",
+                "participants": 1
+            },
+            {
+                "id": 52,
+                "activity": "ابدأ مجموعة",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 53,
+                "activity": "رعاية مطعم محلي مستقل",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 54,
+                "activity": "أصلح شيئًا مكسورًا في منزلك",
+                "type": "عمل مفيد",
+                "participants": 1
+            },
+            {
+                "id": 55,
+                "activity": "خطط لقضاء إجازة لطالما أردت أن تأخذها",
+                "type": "استرخاء",
+                "participants": 1
+            },
+            {
+                "id": 56,
+                "activity": "افعل شيئًا كنت تفعله كطفل",
+                "type": "استرخاء",
+                "participants": 1
+            },
+            {
+                "id": 57,
+                "activity": "اخبز شيئًا لم تجربه من قبل",
+                "type": "طبخ",
+                "participants": 1
+            },
+            {
+                "id": 58,
+                "activity": "ارسم ولون ماندالا",
+                "type": "استرخاء",
+                "participants": 1
+            },
+            {
+                "id": 59,
+                "activity": "تعلم وصفة جديدة",
+                "type": "طبخ",
+                "participants": 1
+            },
+            {
+                "id": 60,
+                "activity": "امدح شخصًا ما",
+                "type": "اجتماعي",
+                "participants": 2
+            },
+            {
+                "id": 61,
+                "activity": "شاهد فيلمًا لم تشاهده عادةً",
+                "type": "استرخاء",
+                "participants": 1
+            },
+            {
+                "id": 62,
+                "activity": "اقرأ ورقة بحث رسمية حول موضوع مثير للاهتمام",
+                "type": "تعلم",
+                "participants": 1
+            },
+            {
+                "id": 63,
+                "activity": "أرسل رسالة نصية إلى صديق لم تتحدث معه منذ وقت طويل",
+                "type": "اجتماعي",
+                "participants": 2
+            },
+            {
+                "id": 64,
+                "activity": "اكتشف الحياة الليلية في مدينتك",
+                "type": "اجتماعي",
+                "participants": 1
+            },
+            {
+                "id": 65,
+                "activity": "أكتب قصيدة",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 66,
+                "activity": "قم بعمل قائمة مهام لأسبوعك",
+                "type": "عمل مفيد",
+                "participants": 1
+            },
+            {
+                "id": 67,
+                "activity": "امنح حيوانك الأليف عشر دقائق من الاهتمام المركّز",
+                "type": "استرخاء",
+                "participants": 1
+            },
+            {
+                "id": 68,
+                "activity": "عمل نسخة احتياطية من ملفات الكمبيوتر الهامة",
+                "type": "عمل مفيد",
+                "participants": 1
+            },
+            {
+                "id": 69,
+                "activity": "ابدأ مدونة عن شيء أنت متحمس له",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 70,
+                "activity": "خذ حمام الفقاعات",
+                "type": "استرخاء",
+                "participants": 1
+            },
+            {
+                "id": 71,
+                "activity": "تعلم كيف تكتب باختصار",
+                "type": "تعلم",
+                "participants": 1
+            },
+            {
+                "id": 72,
+                "activity": "قم بإلغاء تثبيت التطبيقات غير المستخدمة من أجهزتك",
+                "type": "عمل مفيد",
+                "participants": 1
+            },
+            {
+                "id": 73,
+                "activity": "اصنع دفتر قصاصات بصور ذكرياتك المفضلة",
+                "type": "افعلها بنفسك",
+                "participants": 1
+            },
+            {
+                "id": 74,
+                "activity": "اذهب إلى النجوم",
+                "type": "استرخاء",
+                "participants": 1
+            },
+            {
+                "id": 75,
+                "activity": "تعلم العزف على آلة موسيقية جديدة",
+                "type": "موسيقى",
+                "participants": 1
+            },
+            {
+                "id": 76,
+                "activity": "اشعل النار مع أصدقائك المقربين",
+                "type": "اجتماعي",
+                "participants": 4
+            },
+            {
+                "id": 77,
+                "activity": "تعلم جافا سكريبت",
+                "type": "تعلم",
+                "participants": 1
+            },
+            {
+                "id": 78,
+                "activity": "اذهب إلى حانة كاريوكي مع بعض الأصدقاء",
+                "type": "اجتماعي",
+                "participants": 4
+            },
+            {
+                "id": 79,
+                "activity": "قهر أحد مخاوفك",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 80,
+                "activity": "ساهم برمز أو تبرع مالي لمشروع برمجيات مفتوحة المصدر",
+                "type": "عمل خيري",
+                "participants": 1
+            },
+            {
+                "id": 81,
+                "activity": "اذهب إلى متجر التوفير المحلي",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 82,
+                "activity": "تنظيم مجموعتك الموسيقية",
+                "type": "عمل مفيد",
+                "participants": 1
+            },
+            {
+                "id": 83,
+                "activity": "تعلم كيفية بيتبوكس",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 84,
+                "activity": "مشاهدة بنهم لسلسلة تتجه",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 85,
+                "activity": "علم كلبك حيلة جديدة",
+                "type": "استرخاء",
+                "participants": 1
+            },
+            {
+                "id": 86,
+                "activity": "تابع أخبار العالم",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 87,
+                "activity": "اغسل سيارتك",
+                "type": "عمل مفيد",
+                "participants": 1
+            },
+            {
+                "id": 88,
+                "activity": "اذهب لمشاهدة فيلم في دور العرض مع بعض الأصدقاء",
+                "type": "اجتماعي",
+                "participants": 4
+            },
+            {
+                "id": 89,
+                "activity": "متطوع في مأوى للحيوانات ألمحلية",
+                "type": "عمل خيري",
+                "participants": 1
+            },
+            {
+                "id": 90,
+                "activity": "خذ قيلولة تحتوي على الكافيين",
+                "type": "استرخاء",
+                "participants": 1
+            },
+            {
+                "id": 91,
+                "activity": "اصنع الآيس كريم محلي الصنع",
+                "type": "طبخ",
+                "participants": 1
+            },
+            {
+                "id": 92,
+                "activity": "اكتب قائمة بالأشياء التي تشعر بالامتنان لها",
+                "type": "استرخاء",
+                "participants": 1
+            },
+            {
+                "id": 93,
+                "activity": "اكتب ملاحظة تقدير لشخص ما",
+                "type": "اجتماعي",
+                "participants": 1
+            },
+            {
+                "id": 94,
+                "activity": "قم بتكوين المصادقة ذات العاملين على حساباتك",
+                "type": "عمل مفيد",
+                "participants": 1
+            },
+            {
+                "id": 95,
+                "activity": "اذهب للجري",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 96,
+                "activity": "ضع خطة وجبات للأسبوع القادم",
+                "type": "طبخ",
+                "participants": 1
+            },
+            {
+                "id": 97,
+                "activity": "فكر في فكرة عمل جديدة",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 98,
+                "activity": "خطط لرحلة إلى بلد آخر",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 99,
+                "activity": "احصل على نزهة مع بعض الأصدقاء",
+                "type": "اجتماعي",
+                "participants": 3
+            },
+            {
+                "id": 100,
+                "activity": "احصل على جلسة مربى مع أصدقائك",
+                "type": "موسيقى",
+                "participants": 5
+            },
+            {
+                "id": 101,
+                "activity": "تأمل لمدة خمس دقائق",
+                "type": "استرخاء",
+                "participants": 1
+            },
+            {
+                "id": 102,
+                "activity": "نظف سيارتك",
+                "type": "عمل مفيد",
+                "participants": 1
+            },
+            {
+                "id": 103,
+                "activity": "استمع إلى نوع موسيقى جديد",
+                "type": "موسيقى",
+                "participants": 1
+            },
+            {
+                "id": 104,
+                "activity": "تعلم لغة برمجة جديدة",
+                "type": "تعلم",
+                "participants": 1
+            },
+            {
+                "id": 105,
+                "activity": "شاهد فيلمًا كلاسيكيًا",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 106,
+                "activity": "حل اللغز",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 107,
+                "activity": "تعلم لغة أجنبية",
+                "type": "تعلم",
+                "participants": 1
+            },
+            {
+                "id": 108,
+                "activity": "تعلم كيف تلعب رياضة جديدة",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 109,
+                "activity": "اصنع حصنًا للأريكة",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 110,
+                "activity": "افعل شيئًا لطيفًا لشخص تهتم به",
+                "type": "اجتماعي",
+                "participants": 1
+            },
+            {
+                "id": 111,
+                "activity": "تعلم Express.js",
+                "type": "تعلم",
+                "participants": 1
+            },
+            {
+                "id": 112,
+                "activity": "تواصل مع صديق في موعد غداء",
+                "type": "اجتماعي",
+                "participants": 2
+            },
+            {
+                "id": 113,
+                "activity": "تعلم كيف تصنع مهارة أليكسا",
+                "type": "تعلم",
+                "participants": 1
+            },
+            {
+                "id": 114,
+                "activity": "عقد بيع ساحة",
+                "type": "اجتماعي",
+                "participants": 1
+            },
+            {
+                "id": 115,
+                "activity": "ابدأ كتابًا لم تجرِ قراءته مطلقًا",
+                "type": "استرخاء",
+                "participants": 1
+            },
+            {
+                "id": 116,
+                "activity": "تعلم تحية شخص ما بلغة جديدة",
+                "type": "تعلم",
+                "participants": 1
+            },
+            {
+                "id": 117,
+                "activity": "تعلم اللغة الصينية erhu",
+                "type": "موسيقى",
+                "participants": 1
+            },
+            {
+                "id": 118,
+                "activity": "تعلم الأبجدية الصوتية للناتو",
+                "type": "تعلم",
+                "participants": 1
+            },
+            {
+                "id": 119,
+                "activity": "نظف ثلاجتك",
+                "type": "عمل مفيد",
+                "participants": 1
+            },
+            {
+                "id": 120,
+                "activity": "مارس اليوغا",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 121,
+                "activity": "قم بعمل قائمة دلو",
+                "type": "عمل مفيد",
+                "participants": 1
+            },
+            {
+                "id": 122,
+                "activity": "حل مكعب روبيك",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 123,
+                "activity": "استمع إلى موسيقى لم تسمعها منذ فترة",
+                "type": "موسيقى",
+                "participants": 1
+            },
+            {
+                "id": 124,
+                "activity": "شارك في مسابقة طائرة ورقية مع بعض الأصدقاء",
+                "type": "اجتماعي",
+                "participants": 4
+            },
+            {
+                "id": 125,
+                "activity": "اذهب إلى صالون الأظافر",
+                "type": "استرخاء",
+                "participants": 1
+            },
+            {
+                "id": 126,
+                "activity": "اصنع لعبة LEGO الخاصة بك",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 127,
+                "activity": "تطوع وساعد في مركز كبار",
+                "type": "عمل خيري",
+                "participants": 1
+            },
+            {
+                "id": 128,
+                "activity": "احصل على جلسة تصوير مع بعض الأصدقاء",
+                "type": "اجتماعي",
+                "participants": 4
+            },
+            {
+                "id": 129,
+                "activity": "أعد ترتيب غرفتك وتنظيمها",
+                "type": "عمل مفيد",
+                "participants": 1
+            },
+            {
+                "id": 130,
+                "activity": "تعلم النجارة",
+                "type": "افعلها بنفسك",
+                "participants": 1
+            },
+            {
+                "id": 131,
+                "activity": "ابحث عن جمعية خيرية وتبرع لها",
+                "type": "عمل خيري",
+                "participants": 1
+            },
+            {
+                "id": 132,
+                "activity": "خذ قيلولة",
+                "type": "استرخاء",
+                "participants": 1
+            },
+            {
+                "id": 133,
+                "activity": "جز العشب الخاص بك",
+                "type": "عمل مفيد",
+                "participants": 1
+            },
+            {
+                "id": 134,
+                "activity": "انظر إلى أموالك وابحث عن طريقة واحدة لتوفير المال",
+                "type": "عمل مفيد",
+                "participants": 1
+            },
+            {
+                "id": 135,
+                "activity": "اكتب رسالة مكتوبة بخط اليد لشخص ما",
+                "type": "اجتماعي",
+                "participants": 1
+            },
+            {
+                "id": 136,
+                "activity": "تعلم والعب لعبة ورق جديدة",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 137,
+                "activity": "استكشف حديقة لم تزرها من قبل",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 138,
+                "activity": "تعلمي كيفية تضفير الشعر الفرنسي",
+                "type": "تعلم",
+                "participants": 1
+            },
+            {
+                "id": 139,
+                "activity": "خوض مشاجرة كرة القدم مع بعض الأصدقاء",
+                "type": "اجتماعي",
+                "participants": 8
+            },
+            {
+                "id": 140,
+                "activity": "تحضير طبق من ثقافة أجنبية",
+                "type": "طبخ",
+                "participants": 1
+            },
+            {
+                "id": 141,
+                "activity": "تعلم كيفية استخدام الصحافة الفرنسية",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 142,
+                "activity": "قم بزيارة معلميك السابقين",
+                "type": "اجتماعي",
+                "participants": 1
+            },
+            {
+                "id": 143,
+                "activity": "اصنع صدقات جديده",
+                "type": "اجتماعي",
+                "participants": 1
+            },
+            {
+                "id": 144,
+                "activity": "تعرف على كيفية عمل الإنترنت",
+                "type": "تعلم",
+                "participants": 1
+            },
+            {
+                "id": 145,
+                "activity": "تنظيم مجموعة الفيلم الخاص بك",
+                "type": "عمل مفيد",
+                "participants": 1
+            },
+            {
+                "id": 146,
+                "activity": "تسوق في دعم سوق المزارعين المحليين الخاص بك",
+                "type": "استرخاء",
+                "participants": 1
+            },
+            {
+                "id": 147,
+                "activity": "اذهب إلى غرفة الهروب",
+                "type": "اجتماعي",
+                "participants": 4
+            },
+            {
+                "id": 148,
+                "activity": "تدرب على الترميز بلغتك المفضلة",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 149,
+                "activity": "اللون",
+                "type": "استرخاء",
+                "participants": 1
+            },
+            {
+                "id": 150,
+                "activity": "تعلم كيفية التزلج أو التزلج على الجليد",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 151,
+                "activity": "الذهاب الى صالة الالعاب الرياضية",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 152,
+                "activity": "اجلس في الظلام واستمع إلى موسيقاك المفضلة دون تشتيت الانتباه",
+                "type": "استرخاء",
+                "participants": 1
+            },
+            {
+                "id": 153,
+                "activity": "ابحث عن DIY للقيام به",
+                "type": "افعلها بنفسك",
+                "participants": 1
+            },
+            {
+                "id": 154,
+                "activity": "ارسم شيئًا مثيرًا للاهتمام",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 155,
+                "activity": "تعرف على كيفية استخدام Arduino",
+                "type": "تعلم",
+                "participants": 1
+            },
+            {
+                "id": 156,
+                "activity": "تعلم الكتابة بيدك غير المهيمنة",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 157,
+                "activity": "نظم القبو الخاص بك",
+                "type": "عمل مفيد",
+                "participants": 1
+            },
+            {
+                "id": 158,
+                "activity": "اصنع كومة سماد",
+                "type": "افعلها بنفسك",
+                "participants": 1
+            },
+            {
+                "id": 159,
+                "activity": "اصنع آلة موسيقية بسيطة",
+                "type": "موسيقى",
+                "participants": 1
+            },
+            {
+                "id": 160,
+                "activity": "خذ قطتك في نزهة",
+                "type": "استرخاء",
+                "participants": 1
+            },
+            {
+                "id": 161,
+                "activity": "تبرع لبنك الطعام المحلي الخاص بك",
+                "type": "عمل خيري",
+                "participants": 1
+            },
+            {
+                "id": 162,
+                "activity": "نظف خزانتك وتبرع بالملابس التي تجاوزت حجمها",
+                "type": "عمل خيري",
+                "participants": 1
+            },
+            {
+                "id": 163,
+                "activity": "شراء ديكور منزل جديد",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 164,
+                "activity": "تعلم كيفية إنشاء موقع على شبكة الإنترنت",
+                "type": "تعلم",
+                "participants": 1
+            },
+            {
+                "id": 165,
+                "activity": "العب لعبة تنس مع صديق",
+                "type": "اجتماعي",
+                "participants": 2
+            },
+            {
+                "id": 166,
+                "activity": "جز العشب جارك",
+                "type": "عمل خيري",
+                "participants": 1
+            },
+            {
+                "id": 167,
+                "activity": "تحسين الكتابة باللمس",
+                "type": "عمل مفيد",
+                "participants": 1
+            },
+            {
+                "id": 168,
+                "activity": "انطلق في رحلة طويلة بدون موسيقى",
+                "type": "استرخاء",
+                "participants": 1
+            },
+            {
+                "id": 169,
+                "activity": "اذهب للسباحة مع صديق",
+                "type": "اجتماعي",
+                "participants": 2
+            },
+            {
+                "id": 170,
+                "activity": "العب مباراة كرة طائرة مع بعض الأصدقاء",
+                "type": "اجتماعي",
+                "participants": 4
+            },
+            {
+                "id": 171,
+                "activity": "تطوع في مخزن طعامك المحلي",
+                "type": "عمل خيري",
+                "participants": 1
+            },
+            {
+                "id": 172,
+                "activity": "اطبخ شيئًا ما مع شخص ما",
+                "type": "طبخ",
+                "participants": 2
+            },
+            {
+                "id": 173,
+                "activity": "ابدأ حديقة",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 174,
+                "activity": "احفظ الخمسين ولاية وعواصمها",
+                "type": "تعلم",
+                "participants": 1
+            },
+            {
+                "id": 175,
+                "activity": "ابحث عن موضوع تهتم به",
+                "type": "تعلم",
+                "participants": 1
+            },
+            {
+                "id": 176,
+                "activity": "تعلم الجدول الدوري",
+                "type": "تعلم",
+                "participants": 1
+            },
+            {
+                "id": 177,
+                "activity": "العب كرة السلة مع مجموعة من الأصدقاء",
+                "type": "اجتماعي",
+                "participants": 5
+            },
+            {
+                "id": 178,
+                "activity": "تعلم شفرة مورس",
+                "type": "تعلم",
+                "participants": 1
+            },
+            {
+                "id": 179,
+                "activity": "خذ كلبك في نزهة",
+                "type": "استرخاء",
+                "participants": 1
+            },
+            {
+                "id": 180,
+                "activity": "اذهب في رحلة صيد مع بعض الأصدقاء",
+                "type": "اجتماعي",
+                "participants": 3
+            },
+            {
+                "id": 181,
+                "activity": "إنشاء واتباع خطة الادخار",
+                "type": "عمل مفيد",
+                "participants": 1
+            },
+            {
+                "id": 182,
+                "activity": "تعلم كيفية الصفير بأصابعك",
+                "type": "تعلم",
+                "participants": 1
+            },
+            {
+                "id": 183,
+                "activity": "أكتب أغنية",
+                "type": "موسيقى",
+                "participants": 1
+            },
+            {
+                "id": 184,
+                "activity": "ازرع شجرة",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 185,
+                "activity": "اكتب قصة قصيرة",
+                "type": "ترفيه",
+                "participants": 1
+            },
+            {
+                "id": 186,
+                "activity": "اصنع قمصانًا مصبوغة بربطة عنق",
+                "type": "افعلها بنفسك",
+                "participants": 1
+            },
+            {
+                "id": 187,
+                "activity": "قم بإنشاء كتاب طبخ يحتوي على وصفاتك المفضلة",
+                "type": "طبخ",
+                "participants": 1
+            },
+            {
+                "id": 188,
+                "activity": "حل مشكلة كنت تؤجلها",
+                "type": "عمل مفيد",
+                "participants": 1
+            },
+            {
+                "id": 189,
+                "activity": "حفظ الاقتباس أو القصيدة المفضلة",
+                "type": "تعلم",
+                "participants": 1
+            },
+            {
+                "id": 190,
+                "activity": "استمع إلى ألبومك المفضل",
+                "type": "موسيقى",
+                "participants": 1
+            },
+            {
+                "id": 191,
+                "activity": "اصنع ميزانية",
+                "type": "عمل مفيد",
+                "participants": 1
+            },
+            {
+                "id": 192,
+                "activity": "نظم مخزنك",
+                "type": "عمل مفيد",
+                "participants": 1
+            },
+            {
+                "id": 193,
+                "activity": "استمع إلى بودكاست جديد",
+                "type": "استرخاء",
+                "participants": 1
+            },
+            {
+                "id": 194,
+                "activity": "قم بإنشاء أو تحديث سيرتك الذاتية",
+                "type": "عمل مفيد",
+                "participants": 1
+            },
+            {
+                "id": 195,
+                "activity": "فاجئ شريكك بشيء يراعي مشاعر الآخرين",
+                "type": "اجتماعي",
+                "participants": 1
+            },
+            {
+                "id": 196,
+                "activity": "ابدأ ندوة عبر الإنترنت حول موضوع من اختيارك",
+                "type": "تعلم",
+                "participants": 1
+            }
+        ]
 
-    </header>
-    <footer class="py-5 bg-black">
-        <div class="container">
-            <p class="text-center text-white m-0 small">Copyright&nbsp;© Mohamed Kacem 2023</p>
-        </div>
-    </footer>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+        function suggestActivity() {
+            var num_participants = document.getElementById("participants").value;
+            var activity_type = document.getElementById("type").value;
+
+            var suggested_activities;
+
+            // Use filter() to find activities that match the number of participants and type of activity
+            if (num_participants === 'لا يهم' && activity_type === 'لا يهم')
+                suggested_activities = activities;
+            if (num_participants != 'لا يهم' && activity_type === 'لا يهم')
+                suggested_activities = activities.filter(function (activity) {
+                    return activity.participants === num_participants;
+                });
+            if (num_participants === 'لا يهم' && activity_type != 'لا يهم')
+                suggested_activities = activities.filter(function (activity) {
+                    return activity.type === activity_type;
+                });
+            if (num_participants != 'لا يهم' && activity_type != 'لا يهم')
+                suggested_activities = activities.filter(function (activity) {
+                    return activity.type == activity_type && activity.participants == num_participants;
+                });
+
+            // console.log(suggested_activities);
+            let randomIndex = Math.floor(Math.random() * suggested_activities.length);
+            let randomObject = suggested_activities[randomIndex];
+
+            console.log(randomObject);
+            // Display the suggested activity names
+            document.getElementById("suggestion").innerHTML =
+                "النشاط المقترح: " + randomObject.activity + '<br>' +
+                " النوع: " + randomObject.type + '<br>' +
+                " عدد الأشخاص: " + randomObject.participants + '<br>'
+        }
+    </script>
 </body>
-
 
 </html>
